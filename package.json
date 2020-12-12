@@ -5,10 +5,10 @@
   "author": "Eduardo Alves <caaduh4@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --legacy-watch ./src/server.js",
+    "dev": "nodemon --legacy-watch --inspect ./src/server.js",
     "start": "node ./src/server.js",
     "test": "jest --no-cache --silent",
-    "docker": "docker-compose up --build"
+    "docker": "docker-compose up --remove-orphans --build"
   },
   "husky": {
     "hooks": {
