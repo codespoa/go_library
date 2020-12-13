@@ -4,6 +4,7 @@ const DeleteUserService = (repository) => ({
 
   async execute(_id) {
 
+
     const checkUserExists = await repository.findById(_id)
 
     if (!checkUserExists)

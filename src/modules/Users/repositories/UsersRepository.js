@@ -10,7 +10,7 @@ const findById = async _id => {
   return user
 }
 
-const findByEmail = async email => await UserModel.findOne({ email })
+const findByEmail = async email => await UserModel.findOne({ email }).select("+password")
 
 const save = async (payload) => {
   const { name, email, phone, date_birth, password } = payload
@@ -42,6 +42,7 @@ const create = async (payload) => {
 }
 
 const remove = async _id => await UserModel.findOneAndDelete({ _id })
+
 
 const favoriteBook = async ({ _id, bookId }) => {
 

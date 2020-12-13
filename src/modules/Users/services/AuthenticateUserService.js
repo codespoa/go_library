@@ -10,7 +10,6 @@ const AuthenticateUserService = (repository) => ({
   async execute({ email, password }) {
     const user = await repository.findByEmail(email)
 
-
     if (!user) {
       throw new AppError(
         "Email e/ou senha incorretos, por favor verifique seus dados", 404)
@@ -30,6 +29,8 @@ const AuthenticateUserService = (repository) => ({
       subject: user.id,
       expiresIn,
     })
+
+    user.password = ''
 
     return { user, token }
   }
