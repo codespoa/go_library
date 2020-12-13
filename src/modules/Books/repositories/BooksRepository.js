@@ -26,9 +26,9 @@ const save = async (payload) => {
   return book
 }
 
-const findBook = async ({ name, author }) => await BookModel.find().or([{ name }, { author }])
+const findBook = async ({ title, author }) => await BookModel.find().or([{ title }, { author }])
 
-const saveRent = async ({ isbn, status, rented }) => await BookModel.findOneAndUpdate({ isbn }, { status, rented }, { returnOriginal: false })
+const saveRent = async ({ isbn, status, userID }) => await BookModel.findOneAndUpdate({ isbn }, { status, rented: userID }, { returnOriginal: false })
 
 const create = async (payload) => {
   const { title, bio, author, price, release, category, isbn } = payload

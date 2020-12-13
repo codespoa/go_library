@@ -16,10 +16,11 @@ const Resolver = require('../../../../../shared/middlewares/adpter')
 booksRouter.post("/", Validate(validatorsBook.create), Resolver(booksController.create))
 booksRouter.get("/", Resolver(booksController.index))
 booksRouter.get("/search", Resolver(searchBooksController.searchBook))
-booksRouter.get("/:isbn", Resolver(booksController.get))
+booksRouter.get("/:isbn", Resolver(booksController.show))
 booksRouter.delete("/:isbn", Resolver(booksController.remove))
 booksRouter.put("/:isbnParam", Validate(validatorsBook.edit), Resolver(booksController.update))
 booksRouter.patch("/:isbn/rent/:userID", Validate(validatorsBook.rent), Resolver(rentBooksController.rentBook))
+
 
 
 module.exports = booksRouter

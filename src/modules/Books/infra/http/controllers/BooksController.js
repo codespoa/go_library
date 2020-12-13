@@ -32,6 +32,7 @@ const index = async (request, response) => {
 
 const show = async (request, response) => {
   const { isbn } = request.params
+
   const books = await BookModel.findByCode(isbn)
 
   return response.json(books)
@@ -48,11 +49,10 @@ const remove = async (request, response) => {
 }
 
 const update = async (request, response) => {
-  const editBook = EditBookService
   const { isbnParam } = request.params
   const { title, bio, author, category, price, release, isbn } = request.body
 
-  const book = await editBook(BooksRepository).execute({
+  const book = await EditBookService(BooksRepository).execute({
     title,
     bio,
     author,

@@ -4,9 +4,9 @@ const BooksRepository = require('../../../repositories/BooksRepository')
 
 const searchBook = async (request, response) => {
   const searchBook = SearchBookService
-  const { name, author } = request.query
+  const { title, author } = request.query
 
-  const book = await searchBook(BooksRepository).execute({ name, author })
+  const book = await searchBook(BooksRepository).execute({ title, author })
 
   return response.status(200).json(book)
 }
