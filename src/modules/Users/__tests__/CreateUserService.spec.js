@@ -6,7 +6,7 @@ describe("CreateUser", () => {
 
     const user = await CreateUserService(FakesUserRepository).execute({
       name: "John Doe",
-      email: "jonh@test.com",
+      email: "jonhdoe@test.com",
       password: "123456",
     })
 
@@ -19,10 +19,15 @@ describe("CreateUser", () => {
   })
 
   it("should be not create two users with same email", async () => {
-    createUser = CreateUserService
+
+    await CreateUserService(FakesUserRepository).execute({
+      name: "John Doe",
+      email: "jonh@test.com",
+      password: "123456",
+    })
 
     expect(
-      createUser(FakesUserRepository).execute({
+      CreateUserService(FakesUserRepository).execute({
         name: "John Doe",
         email: "jonh@example.com",
         password: "123456",

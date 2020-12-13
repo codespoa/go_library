@@ -13,9 +13,13 @@ describe("DeleteUser", () => {
       date_birth: new Date(),
     })
 
-    const deleteUser = await DeleteUserService(FakesUserRepository).execute("5fd56f6878e7ba10cf206dfb")
+    const deleteUser = await DeleteUserService(FakesUserRepository).execute(user._id)
 
-    // expect(user).toHaveProperty("_id")
+    expect(user).toHaveProperty("_id")
+    expect(user).toHaveProperty("name")
+    expect(user).toHaveProperty("email")
+
+    expect(deleteUser).toBe(undefined)
 
     return deleteUser
 
