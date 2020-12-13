@@ -1,9 +1,9 @@
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid')
 const BookModel = require('../../infra/mongoose/entities/Book')
 
 const books = []
 
-function create(payload) {
+async function create(payload) {
   const book = new BookModel()
 
   Object.assign(book, { id: uuidv4() }, payload)
@@ -13,20 +13,27 @@ function create(payload) {
   return book
 }
 
-function getAll() {
+async function getAll() {
   const findBook = books.find((user) => user.id === id)
 
   return findBook
 }
 
-function findByCode(code) {
-  const findBook = books.find((book) => book.sbnCode === code)
+async function findByCode(isbn) {
+  const findBook = books.find((book) => book.isbn === isbn)
+
+  return findBook
+}
+
+async function findUserById(userId) {
+
+  const findBook = books.find((book) => book.id === userId)
 
   return findBook
 }
 
 
-function save(book) {
+async function save(book) {
   const findIndex = books.findIndex((findBook) => findBook.id === book.id)
 
   books[findIndex] = book
@@ -34,23 +41,27 @@ function save(book) {
   return book
 }
 
-function findBook(name, author) {
-  const findBook = books.find((book) => book.name === name || book.author === author)
+async function findBook({title, author}) {
+
+  const findBook = books.find((book) => book.title === title || book.author === author)
+
   return findBook
 }
 
-const saveRent = ({ sbnCode, status, rented }) => {
-  const findIndex = books.find((findBook) => findBook.sbnCode === sbnCode)
+async function saveRent({ isbn, status, userID }) {
+  const findIndex = books.find((findBook) => findBook.isbn === isbn)
 
-  books[findIndex] = { sbnCode, status, rented }
 
-  return { sbnCode, status, rented }
+  books[findIndex] = { isbn, status, userID }
+
+  return { isbn, status, userID }
 }
 
 
-function remove(code) {
-  const findUser = books.find((user) => user.code === code)
-  return findUser
+async function remove(isbn) {
+  const findBook = books.find((book) => book.isbn === isbn)
+  
+  return findBook
 }
 
-module.exports = { getAll, findByCode, create, save, findBook, saveRent, remove }
+module.exports = { getAll, findByCode, create, save, findBook, saveRent, remove, findUserById }

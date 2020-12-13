@@ -4,18 +4,17 @@ const RentBookService = (repository) => ({
 
   async execute({ isbn, status, userID }) {
     const checkBookExists = await repository.findByCode(isbn)
-    const checkUserExists = await repository.findUserById(userID)
 
-    if (!checkBookExists || !checkUserExists)
-      throw new AppError('This book or user not exists in system', 404)
+    if (!checkBookExists)
+      throw new AppError('This book not exists in system', 404)
 
-    if (checkBookExists.status === 'rented' && checkBookExists.userID !== userID)
+    if (checkBookExists.status === 'rented')
       throw new AppError('This book is already rented', 400)
 
     if (checkBookExists.status === 'rented')
       userID = ''
 
-    const book = await repository.saveRent({ isbn, status, rented })
+    const book = await repository.saveRent({ isbn, status, userID })
 
     return book
   }
