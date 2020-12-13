@@ -5,35 +5,37 @@ describe("CreateBook", () => {
   it("should be able to create a new book", async () => {
 
     const book = await CreateBookService(FakesBookRepository).execute({
-      name: "Aventura Z",
+      title: "Aventura Z",
       bio: "E mais de 8000 mil",
       author: "Goku",
       price: 8000,
+      category: "Horror",
       release: new Date(),
-      sbnCode: "12sd2",
+      isbn: "12sd2",
     })
 
-    expect(book).toHaveProperty('name')
+    expect(book).toHaveProperty('title')
     expect(book).toHaveProperty('author')
     expect(book).toHaveProperty('price')
+    expect(book).toHaveProperty('category')
     expect(book).toHaveProperty('release')
-    expect(book).toHaveProperty('sbnCode')
+    expect(book).toHaveProperty('isbn')
 
     return book
 
   })
 
-  it("should be not create two books with same sbnCode", async () => {
-    createBook = CreateBookService
+  it("should be not create two books with same isbn", async () => {
 
     expect(
-      createBook(FakesBookRepository).execute({
-        name: "Aventura Z",
+      CreateBookService(FakesBookRepository).execute({
+        title: "Aventura Z",
         bio: "E mais de 8000 mil",
         author: "Goku",
         price: 8000,
+        category: "Horror",
         release: new Date(),
-        sbnCode: "12sd2"
+        isbn: "12sd2",
       })
 
     ).rejects.toThrow()

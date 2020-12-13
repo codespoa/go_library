@@ -8,15 +8,16 @@ describe("EditBook", () => {
 
 
     const editBook = await CreateBookService(FakesBookRepository).execute({
-      name: "Aventura XYZ",
+      title: "Aventura XYZ",
       bio: "Fooooi",
       author: "Vegeta",
       price: 8000,
+      category: "Horror",
       release: new Date(),
-      sbnCode: "12sd23212sd232",
+      isbn: "12sd23212sd232",
     })
 
-    expect(editBook.name).toBe('Aventura XYZ')
+    expect(editBook.title).toBe('Aventura XYZ')
     expect(editBook.bio).toBe('Fooooi')
     expect(editBook.author).toBe('Vegeta')
 
@@ -28,12 +29,13 @@ describe("EditBook", () => {
 
     expect(
       EditBookService(FakesBookRepository).execute({
-        name: "Aventura X",
+        title: "Aventura X",
         bio: "E mais de 80000 mil",
         author: "Vegeta",
         price: 80000,
+        category: "Horror",
         release: new Date(),
-        sbnCodeParam: "",
+        isbnParam: "",
       })
 
     ).rejects.toThrow('This book not exist')
@@ -43,27 +45,29 @@ describe("EditBook", () => {
   it("should be not if status is rented", async () => {
 
     await CreateBookService(FakesBookRepository).execute({
-      name: "Aventura Z",
+      title: "Aventura Z",
       bio: "E mais de 8000 mil",
       author: "Goku",
       price: 8000,
+      category: "Horror",
       release: new Date(),
-      sbnCode: "12sd232",
+      isbn: "12sd232",
     })
 
     const books = await RentBookService(FakesBookRepository).execute({
-      sbnCode: '12sd232',
+      isbn: '12sd232',
       rented: '5fbb904274e61942f4956267',
       status: 'rented'
     })
 
     expect(EditBookService(FakesBookRepository).execute({
-      name: "Aventura ZYZ",
+      title: "Aventura ZYZ",
       bio: "E mais de 8000 mil",
       author: "Goku",
       price: 8000,
+      category: "Horror",
       release: new Date(Date.now()),
-      sbnCode: '12sd2',
+      isbn: '12sd2',
     })).rejects.toThrow()
 
     return books
@@ -73,16 +77,17 @@ describe("EditBook", () => {
   it("should be not if rented is diferent with me", async () => {
 
     await CreateBookService(FakesBookRepository).execute({
-      name: "Aventura Z",
+      title: "Aventura Z",
       bio: "E mais de 8000 mil",
       author: "Goku",
       price: 8000,
+      category: "Horror",
       release: new Date(),
-      sbnCode: "12sddsd232",
+      isbn: "12sddsd232",
     })
 
     const books = await RentBookService(FakesBookRepository).execute({
-      sbnCode: '12sddsd232',
+      isbn: '12sddsd232',
       rented: '5fbb904274e61942f4956267',
       status: 'rented'
     })
