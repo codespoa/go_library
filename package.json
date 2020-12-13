@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon --legacy-watch --inspect ./src/server.js",
     "start": "node ./src/server.js",
-    "test": "jest --no-cache --silent",
+    "test": "clear && jest --no-cache", 
     "docker": "docker-compose up --remove-orphans --build"
   },
   "husky": {
@@ -57,4 +57,5 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   }
+  
 }
