@@ -8,5 +8,5 @@ module.exports = yup.object().shape({
   price: yup.number().required(),
   release: yup.date().required(),
   status: yup.string().oneOf(['rented', 'not rented', 'lack']).default('not rented'),
-  isbn: yup.string().required(),
+  isbn: yup.string().matches(/[a-zA-Z]+/gi).required().min(3),
 });
