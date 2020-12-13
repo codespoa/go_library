@@ -14,14 +14,14 @@ const CreateUserService = (repository) => ({
 
     const dateBirthUser = startOfDay(date_birth)
   
-    const user = await repository.save({
+    const user = await repository.create({
       name,
       email,
       phone,
       date_birth: dateBirthUser,
       password: passwordHashed,
     })
-  
+
     return user
   }
   

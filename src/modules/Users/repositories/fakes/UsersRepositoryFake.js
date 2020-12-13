@@ -1,52 +1,44 @@
 const { v4: uuidv4 } = require('uuid');
 const UserModel = require('../../infra/mongoose/entities/User')
 
-function findById(id) {
-  const users = []
+const users = []
 
-  const findUser = users.find((user) => user.id === id)
+async function findById(_id) {
+
+
+  const findUser = users.find((user) => user._id)
+
 
   return findUser
 }
 
 function findByEmail(email) {
-  const users = [{
-    email: "jonh@example.com",
-    password: '$2a$08$uNlMdR49/azEYaCEwAmZX.qMp0H3WAwSxGPEIJvrkdcedxh0ocy9a',
-    id: uuidv4()
-  }]
-
   const findUser = users.find((user) => user.email === email)
 
   return findUser
 }
 
-function create(payload) {
-  const users = [{
-    id: uuidv4()
-  }]
-
+async function create(payload) {
   const user = new UserModel()
 
-  Object.assign(user, { id: uuidv4(), }, payload)
-
+  
+  Object.assign(user, { _id: uuidv4() }, payload)
+  
   users.push(user)
-
+  
   return user
 }
 
-function save(user) {
-  const users = []
+async function save(user) {
 
-  const findIndex = users.findIndex((findUser) => findUser.id === user.id)
+  const findIndex = users.findIndex((findUser) => findUser._id === user._id)
 
   users[findIndex] = user
 
   return user
 }
 
-function remove(code) {
-  const users = []
+async function remove(code) {
 
   const findUser = users.find((user) => user.code === code)
   return findUser

@@ -1,8 +1,14 @@
 const UserModel = require('../infra/mongoose/entities/User')
+const { ObjectId } = require("mongoose").Types
 
-const getAll = async () => await UserModel.find({})
 
-const findById = async id => await UserModel.findById(id)
+const getAll = async () => await UserModel.find({}).select('-password')
+
+const findById = async _id => {
+  const user = await UserModel.findById(_id).select('-password').populate('favorite_books')
+
+  return user
+}
 
 const findByEmail = async email => await UserModel.findOne({ email })
 
@@ -24,7 +30,7 @@ const save = async (payload) => {
 const create = async (payload) => {
   const { name, email, phone, date_birth, password } = payload
 
-  const user = await UserModel.create({ 
+  const user = await UserModel.create({
     name,
     email,
     phone,
@@ -35,7 +41,21 @@ const create = async (payload) => {
   return user
 }
 
-const remove = async id => await UserModel.findOneAndDelete({ _id: id });
+const remove = async _id => await UserModel.findOneAndDelete({ _id })
+
+const favoriteBook = async ({ _id, bookId }) => {
+
+  const idBook = ObjectId(bookId)
+
+  return await UserModel.findOneAndUpdate({ _id }, { $addToSet: { favorite_books: idBook } }, { new: true }).populate('favorite_books')
+}
+
+const unfavoriteBook = async ({ _id, bookId }) => {
+
+  const idBook = ObjectId(bookId)
+
+  return await UserModel.findOneAndUpdate({ _id }, { $pull: { favorite_books: idBook } }, { new: true })
+}
 
 module.exports = {
   getAll,
@@ -43,5 +63,7 @@ module.exports = {
   remove,
   findById,
   findByEmail,
-  create
+  create,
+  favoriteBook,
+  unfavoriteBook
 }
